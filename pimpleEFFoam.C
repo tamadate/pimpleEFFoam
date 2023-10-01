@@ -160,11 +160,13 @@ int main(int argc, char *argv[])
 			}
 
 			// --- Charge conservation
+//			rhoFlux=-k*mesh.magSf()*fvc::snGrad(phi);
+			phiEF = fvc::flux(E);
 			fvScalarMatrix rhoEqn
 			(
 				fvm::ddt(rho) 
 				+ fvm::div(phi, rho) 
-				+ fvm::div(rhoFlux, rho)
+				+ fvm::div(k*phiEF, rho)
 				- fvm::laplacian(k*pc::kb*T/pc::e,rho)
 			);
 			

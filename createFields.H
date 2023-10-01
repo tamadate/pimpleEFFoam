@@ -95,7 +95,7 @@ volScalarField phiE
     mesh
 );
 
-Info<< "Reading/calculating field E (electric field)\n" << endl;
+Info<< "Calculating field E (electric field)\n" << endl;
 volVectorField E
 (
     IOobject
@@ -138,6 +138,20 @@ surfaceScalarField rhoFlux
         IOobject::NO_WRITE
     ),
     -k*mesh.magSf()*fvc::snGrad(phiE)
+);
+
+Info<< "Reading/calculating face flux field of electric field phiEF\n" << endl; 
+surfaceScalarField phiEF
+(
+IOobject
+(
+    "phiEF",
+        runTime.timeName(),
+        mesh,
+        IOobject::READ_IF_PRESENT,
+        IOobject::AUTO_WRITE
+),
+ 	fvc::flux(E)
 );
 
 
